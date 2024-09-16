@@ -3,51 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>Fancy Calculator</title>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            font-family: 'Arial', sans-serif;
         }
         .calculator {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 320px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            background: #ffffff;
         }
         .calculator input {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            font-size: 1.5em;
+            padding: 20px;
+            font-size: 2em;
+            border: none;
+            background: #f4f4f4;
             text-align: right;
+            border-bottom: 1px solid #ddd;
         }
         .calculator button {
             width: 25%;
             padding: 20px;
             font-size: 1.5em;
+            border: none;
             cursor: pointer;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
             border-radius: 5px;
             margin: 5px 0;
+            transition: background 0.3s ease, transform 0.1s ease;
+        }
+        .calculator button:active {
+            transform: scale(0.98);
         }
         .calculator button.operator {
-            background-color: #f90;
+            background: #f9a825;
             color: #fff;
         }
         .calculator button.equals {
-            background-color: #0a0;
+            background: #43a047;
             color: #fff;
         }
         .calculator button.clear {
-            background-color: #f00;
+            background: #e53935;
             color: #fff;
+        }
+        .calculator button:not(.operator):not(.clear):not(.equals) {
+            background: #eeeeee;
+        }
+        .calculator button:hover {
+            background: #ccc;
         }
     </style>
 </head>
