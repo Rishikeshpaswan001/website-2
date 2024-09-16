@@ -10,24 +10,35 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            background: #000;
             font-family: 'Arial', sans-serif;
+            margin: 0;
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .calculator {
             width: 320px;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            background: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+            background: #333;
+            padding: 10px;
         }
         .calculator input {
             width: 100%;
             padding: 20px;
             font-size: 2em;
             border: none;
-            background: #f4f4f4;
+            background: #444;
+            color: #fff;
             text-align: right;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #555;
         }
         .calculator button {
             width: 25%;
@@ -38,50 +49,55 @@
             border-radius: 5px;
             margin: 5px 0;
             transition: background 0.3s ease, transform 0.1s ease;
+            color: #fff;
         }
         .calculator button:active {
             transform: scale(0.98);
         }
         .calculator button.operator {
             background: #f9a825;
-            color: #fff;
         }
         .calculator button.equals {
             background: #43a047;
-            color: #fff;
         }
         .calculator button.clear {
             background: #e53935;
-            color: #fff;
         }
         .calculator button:not(.operator):not(.clear):not(.equals) {
-            background: #eeeeee;
+            background: #555;
         }
         .calculator button:hover {
-            background: #ccc;
+            background: #666;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <input type="text" id="display" disabled>
-        <button class="clear" onclick="clearDisplay()">C</button>
-        <button class="operator" onclick="appendCharacter('/')">/</button>
-        <button class="operator" onclick="appendCharacter('*')">*</button>
-        <button class="operator" onclick="appendCharacter('-')">-</button>
-        <button class="operator" onclick="appendCharacter('+')">+</button>
-        <button onclick="appendCharacter('7')">7</button>
-        <button onclick="appendCharacter('8')">8</button>
-        <button onclick="appendCharacter('9')">9</button>
-        <button class="equals" onclick="calculate()">=</button>
-        <button onclick="appendCharacter('4')">4</button>
-        <button onclick="appendCharacter('5')">5</button>
-        <button onclick="appendCharacter('6')">6</button>
-        <button onclick="appendCharacter('.')">.</button>
-        <button onclick="appendCharacter('1')">1</button>
-        <button onclick="appendCharacter('2')">2</button>
-        <button onclick="appendCharacter('3')">3</button>
-        <button onclick="appendCharacter('0')">0</button>
+    <div class="container">
+        <h1>Simple Calculator</h1>
+        <div class="calculator">
+            <input type="text" id="display" disabled>
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="appendCharacter('/')">/</button>
+            <button class="operator" onclick="appendCharacter('*')">*</button>
+            <button class="operator" onclick="appendCharacter('-')">-</button>
+            <button class="operator" onclick="appendCharacter('+')">+</button>
+            <button onclick="appendCharacter('7')">7</button>
+            <button onclick="appendCharacter('8')">8</button>
+            <button onclick="appendCharacter('9')">9</button>
+            <button class="equals" onclick="calculate()">=</button>
+            <button onclick="appendCharacter('4')">4</button>
+            <button onclick="appendCharacter('5')">5</button>
+            <button onclick="appendCharacter('6')">6</button>
+            <button onclick="appendCharacter('.')">.</button>
+            <button onclick="appendCharacter('1')">1</button>
+            <button onclick="appendCharacter('2')">2</button>
+            <button onclick="appendCharacter('3')">3</button>
+            <button onclick="appendCharacter('0')">0</button>
+        </div>
     </div>
 
     <script>
