@@ -3,170 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fancy Calculator</title>
+    <title>Multi-Feature Calculator</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #000;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            color: #fff;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .calculator {
-            width: 300px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
-            background: #333;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .calculator input {
-            width: calc(100% - 20px);
-            padding: 20px;
-            font-size: 1.8em;
-            border: none;
-            background: #444;
-            color: #fff;
-            text-align: right;
-            border-bottom: 1px solid #555;
-            box-sizing: border-box;
-        }
-        .calculator button {
-            width: 22%;
-            padding: 15px;
-            font-size: 1.2em;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 5px 0;
-            transition: background 0.3s ease, transform 0.1s ease;
-            color: #fff;
-            box-sizing: border-box;
-        }
-        .calculator button:active {
-            transform: scale(0.98);
-        }
-        .calculator button.operator {
-            background: #f9a825;
-        }
-        .calculator button.equals {
-            background: #43a047;
-        }
-        .calculator button.clear {
-            background: #e53935;
-        }
-        .calculator button:not(.operator):not(.clear):not(.equals) {
-            background: #555;
-        }
-        .calculator button:hover {
-            background: #666;
-        }
-        .calculator .complex {
-            display: none;
-        }
-        .calculator.complex .complex {
-            display: block;
-        }
-        h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .toggle-btn {
-            margin: 10px;
-            padding: 10px 20px;
-            background: #007bff;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .toggle-btn:hover {
-            background: #0056b3;
-        }
+        body { font-family: Arial, sans-serif; }
+        .container { width: 300px; margin: 0 auto; padding-top: 20px; }
+        .calculator { display: none; }
+        .calculator.active { display: block; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Calculator</h1>
-        <button class="toggle-btn" onclick="toggleMode()">Switch to Complex Calculator</button>
-        <div class="calculator">
-            <input type="text" id="display" disabled>
-            <button class="clear" onclick="clearDisplay()">C</button>
-            <button class="operator" onclick="appendCharacter('/')">/</button>
-            <button class="operator" onclick="appendCharacter('*')">*</button>
-            <button class="operator" onclick="appendCharacter('-')">-</button>
-            <button class="operator" onclick="appendCharacter('+')">+</button>
-            <button onclick="appendCharacter('7')">7</button>
-            <button onclick="appendCharacter('8')">8</button>
-            <button onclick="appendCharacter('9')">9</button>
-            <button class="equals" onclick="calculate()">=</button>
-            <button onclick="appendCharacter('4')">4</button>
-            <button onclick="appendCharacter('5')">5</button>
-            <button onclick="appendCharacter('6')">6</button>
-            <button onclick="appendCharacter('.')">.</button>
-            <button onclick="appendCharacter('1')">1</button>
-            <button onclick="appendCharacter('2')">2</button>
-            <button onclick="appendCharacter('3')">3</button>
-            <button onclick="appendCharacter('0')">0</button>
-            <div class="complex">
-                <button onclick="appendCharacter('sqrt(')">√</button>
-                <button onclick="appendCharacter('pow(')">^</button>
-                <button onclick="appendCharacter('%')">%</button>
-                <button onclick="appendCharacter('Math.log(')">ln</button>
-            </div>
+        <h1>Multi-Feature Calculator</h1>
+        <div>
+            <button onclick="showCalculator('standard')">Standard Calculator</button>
+            <button onclick="showCalculator('scientific')">Scientific Calculator</button>
+            <button onclick="showCalculator('graphing')">Graphing Calculator</button>
+            <button onclick="showCalculator('programming')">Programming Calculator</button>
+            <button onclick="showCalculator('date')">Date Calculation Calculator</button>
+        </div>
+
+        <!-- Standard Calculator -->
+        <div id="standard" class="calculator active">
+            <h2>Standard Calculator</h2>
+            <input type="text" id="stdNum1" placeholder="First number">
+            <select id="stdOp">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" id="stdNum2" placeholder="Second number">
+            <button onclick="calculateStandard()">Calculate</button>
+            <p id="stdResult"></p>
+        </div>
+
+        <!-- Scientific Calculator -->
+        <div id="scientific" class="calculator">
+            <h2>Scientific Calculator</h2>
+            <input type="text" id="sciNum" placeholder="Number">
+            <select id="sciFunc">
+                <option value="sin">sin</option>
+                <option value="cos">cos</option>
+                <option value="tan">tan</option>
+                <option value="sqrt">sqrt</option>
+                <option value="log">log</option>
+            </select>
+            <button onclick="calculateScientific()">Calculate</button>
+            <p id="sciResult"></p>
+        </div>
+
+        <!-- Graphing Calculator -->
+        <div id="graphing" class="calculator">
+            <h2>Graphing Calculator</h2>
+            <input type="text" id="graphFunc" placeholder="Function (e.g., x**2)">
+            <button onclick="plotGraph()">Plot Graph</button>
+            <div id="graphOutput"></div>
+        </div>
+
+        <!-- Programming Calculator -->
+        <div id="programming" class="calculator">
+            <h2>Programming Calculator</h2>
+            <input type="text" id="progNum" placeholder="Number">
+            <button onclick="convertNumber()">Convert</button>
+            <p id="progResult"></p>
+        </div>
+
+        <!-- Date Calculation Calculator -->
+        <div id="date" class="calculator">
+            <h2>Date Calculation Calculator</h2>
+            <input type="date" id="date1">
+            <input type="date" id="date2">
+            <button onclick="calculateDateDifference()">Calculate Difference</button>
+            <p id="dateResult"></p>
         </div>
     </div>
 
     <script>
-        let isComplex = false;
-
-        function appendCharacter(char) {
-            document.getElementById('display').value += char;
+        function showCalculator(calcType) {
+            document.querySelectorAll('.calculator').forEach(calc => {
+                calc.classList.remove('active');
+            });
+            document.getElementById(calcType).classList.add('active');
         }
 
-        function clearDisplay() {
-            document.getElementById('display').value = '';
-        }
-
-        function calculate() {
-            try {
-                let expression = document.getElementById('display').value;
-                // Replace complex functions with JavaScript equivalents
-                expression = expression.replace(/sqrt\(/g, 'Math.sqrt(')
-                                       .replace(/pow\(/g, 'Math.pow(')
-                                       .replace(/ln/g, 'Math.log(');
-                document.getElementById('display').value = eval(expression) || '';
-            } catch (e) {
-                document.getElementById('display').value = 'Error';
+        function calculateStandard() {
+            const num1 = parseFloat(document.getElementById('stdNum1').value);
+            const op = document.getElementById('stdOp').value;
+            const num2 = parseFloat(document.getElementById('stdNum2').value);
+            let result;
+            switch (op) {
+                case '+': result = num1 + num2; break;
+                case '-': result = num1 - num2; break;
+                case '*': result = num1 * num2; break;
+                case '/': result = num2 !== 0 ? num1 / num2 : 'Error: Division by zero'; break;
             }
+            document.getElementById('stdResult').innerText = `Result: ${result}`;
         }
 
-        function toggleMode() {
-            const calculator = document.querySelector('.calculator');
-            const toggleBtn = document.querySelector('.toggle-btn');
-            
-            if (isComplex) {
-                calculator.classList.remove('complex');
-                toggleBtn.textContent = 'Switch to Complex Calculator';
-                isComplex = false;
-            } else {
-                calculator.classList.add('complex');
-                toggleBtn.textContent = 'Switch to Basic Calculator';
-                isComplex = true;
+        function calculateScientific() {
+            const num = parseFloat(document.getElementById('sciNum').value);
+            const func = document.getElementById('sciFunc').value;
+            let result;
+            switch (func) {
+                case 'sin': result = Math.sin(num); break;
+                case 'cos': result = Math.cos(num); break;
+                case 'tan': result = Math.tan(num); break;
+                case 'sqrt': result = Math.sqrt(num); break;
+                case 'log': result = Math.log(num); break;
             }
+            document.getElementById('sciResult').innerText = `Result: ${result}`;
+        }
+
+        function plotGraph() {
+            const func = document.getElementById('graphFunc').value;
+            const graphOutput = document.getElementById('graphOutput');
+            graphOutput.innerHTML = '';
+            const script = document.createElement('script');
+            script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+            script.onload = () => {
+                const ctx = document.createElement('canvas');
+                graphOutput.appendChild(ctx);
+                const x = Array.from({ length: 100 }, (_, i) => i - 50);
+                const y = x.map(val => eval(func.replace(/x/g, val)));
+                new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: x,
+                        datasets: [{ label: 'Graph', data: y, borderColor: 'blue', fill: false }]
+                    }
+                });
+            };
+            document.head.appendChild(script);
+        }
+
+        function convertNumber() {
+            const num = parseInt(document.getElementById('progNum').value);
+            const result = `
+                Binary: ${num.toString(2)}<br>
+                Octal: ${num.toString(8)}<br>
+                Hexadecimal: ${num.toString(16)}
+            `;
+            document.getElementById('progResult').innerHTML = result;
+        }
+
+        function calculateDateDifference() {
+            const date1 = new Date(document.getElementById('date1').value);
+            const date2 = new Date(document.getElementById('date2').value);
+            const diff = Math.abs(date2 - date1);
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('dateResult').innerText = `Difference: ${days} days`;
         }
     </script>
 </body>
