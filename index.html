@@ -16,7 +16,7 @@
             margin: 0;
         }
         .calculator-container {
-            width: 320px;
+            width: 360px;
             background: #2e2e2e;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -32,13 +32,19 @@
             border: none;
             color: #ffffff;
             padding: 10px;
-            width: 25%;
+            width: 20%;
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s;
         }
         .calc-controls button:hover {
             background: #555;
+        }
+        .calculator {
+            display: none;
+        }
+        .calculator.active {
+            display: block;
         }
         .display {
             background: #1e1e1e;
@@ -79,11 +85,38 @@
         .button.operator:hover {
             background: #005a9e;
         }
+        .sci-button {
+            background: #0078d4;
+            color: #ffffff;
+        }
+        .sci-button:hover {
+            background: #005a9e;
+        }
         .result {
             background: #3c3c3c;
             padding: 15px;
             font-size: 18px;
             text-align: center;
+        }
+        .calc-standard {
+            background: url('https://upload.wikimedia.org/wikipedia/commons/0/07/Calculator_on_Windows_11.png') no-repeat center;
+            background-size: cover;
+        }
+        .calc-scientific {
+            background: url('https://www.isunshare.com/images/article/windows-10/open-scientific-or-programmer-calculator-in-windows-10/scientific-calculator.png') no-repeat center;
+            background-size: cover;
+        }
+        .calc-graphing {
+            background: url('https://www.partitionwizard.com/images/uploads/articles/2020/02/unlock-win10-graphing-calculator/unlock-win10-graphing-calculator-3.png') no-repeat center;
+            background-size: cover;
+        }
+        .calc-programming {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5hXvHgoLW0l_5F8_loTseiASWRCXdor_WkQ&s') no-repeat center;
+            background-size: cover;
+        }
+        .calc-date {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Yf2xCeZub7VqsGKhT201LLYMMJjVuumAiA&s') no-repeat center;
+            background-size: cover;
         }
     </style>
 </head>
@@ -92,10 +125,12 @@
         <div class="calc-controls">
             <button onclick="showCalculator('standard')">Standard</button>
             <button onclick="showCalculator('scientific')">Scientific</button>
+            <button onclick="showCalculator('graphing')">Graphing</button>
             <button onclick="showCalculator('programming')">Programming</button>
             <button onclick="showCalculator('date')">Date</button>
         </div>
-        <div id="standard" class="calculator active">
+
+        <div id="standard" class="calculator calc-standard active">
             <div class="display" id="stdDisplay">0</div>
             <div class="button-grid">
                 <button class="button double" onclick="appendNumber('7')">7</button>
@@ -112,108 +147,104 @@
                 <button class="button operator" onclick="setOperation('-')">-</button>
                 <button class="button double" onclick="appendNumber('0')">0</button>
                 <button class="button" onclick="appendNumber('.')">.</button>
-                <button class="button operator" onclick="calculateResult()">=</button>
+                <button class="button triple" onclick="calculateResult()">=</button>
                 <button class="button operator" onclick="setOperation('+')">+</button>
             </div>
         </div>
 
-        <div id="scientific" class="calculator">
+        <div id="scientific" class="calculator calc-scientific">
             <div class="display" id="sciDisplay">0</div>
             <div class="button-grid">
                 <button class="button double" onclick="appendNumber('7')">7</button>
                 <button class="button double" onclick="appendNumber('8')">8</button>
                 <button class="button double" onclick="appendNumber('9')">9</button>
-                <button class="button operator" onclick="setScientificFunction('sqrt')">√</button>
+                <button class="sci-button" onclick="setScientificFunction('sqrt')">√</button>
                 <button class="button double" onclick="appendNumber('4')">4</button>
                 <button class="button double" onclick="appendNumber('5')">5</button>
                 <button class="button double" onclick="appendNumber('6')">6</button>
-                <button class="button operator" onclick="setScientificFunction('pow')">^</button>
+                <button class="sci-button" onclick="setScientificFunction('pow')">^</button>
                 <button class="button double" onclick="appendNumber('1')">1</button>
                 <button class="button double" onclick="appendNumber('2')">2</button>
                 <button class="button double" onclick="appendNumber('3')">3</button>
-                <button class="button operator" onclick="setScientificFunction('log10')">log10</button>
+                <button class="sci-button" onclick="setScientificFunction('log10')">log10</button>
                 <button class="button double" onclick="appendNumber('0')">0</button>
                 <button class="button" onclick="appendNumber('.')">.</button>
                 <button class="button triple" onclick="clearScientific()">C</button>
-                <button class="button operator" onclick="setScientificFunction('ln')">ln</button>
+                <button class="sci-button" onclick="setScientificFunction('ln')">ln</button>
             </div>
         </div>
 
-        <div id="programming" class="calculator">
+        <div id="graphing" class="calculator calc-graphing">
+            <div class="display" id="graphDisplay">Graphing Calculator</div>
+            <!-- Graphing calculator content can be added here -->
+        </div>
+
+        <div id="programming" class="calculator calc-programming">
             <div class="display" id="progDisplay">0</div>
             <div class="button-grid">
-                <button class="button double" onclick="convertNumber()">Convert</button>
-                <button class="button operator" onclick="clearProgramming()">C</button>
-                <button class="button operator" onclick="setBase(2)">Binary</button>
-                <button class="button operator" onclick="setBase(8)">Octal</button>
-                <button class="button operator" onclick="setBase(10)">Decimal</button>
-                <button class="button operator" onclick="setBase(16)">Hexadecimal</button>
-                <button class="button triple" onclick="appendNumber('0')">0</button>
-                <button class="button triple" onclick="appendNumber('.')">.</button>
+                <button class="button" onclick="convertNumber()">Convert</button>
+                <button class="button" onclick="clearProgramming()">C</button>
+                <button class="button" onclick="setBase(2)">Binary</button>
+                <button class="button" onclick="setBase(8)">Octal</button>
+                <button class="button" onclick="setBase(10)">Decimal</button>
+                <button class="button" onclick="setBase(16)">Hexadecimal</button>
+                <input type="text" id="progNum" placeholder="Enter number" oninput="convertNumber()">
             </div>
         </div>
 
-        <div id="date" class="calculator">
-            <div class="display" id="dateDisplay">Select Dates</div>
+        <div id="date" class="calculator calc-date">
+            <div class="display">Date Difference Calculator</div>
             <input type="date" id="date1">
             <input type="date" id="date2">
-            <button class="button triple" onclick="calculateDateDifference()">Calculate Difference</button>
-            <div id="dateResult" class="result"></div>
+            <button class="button" onclick="calculateDateDifference()">Calculate</button>
+            <div class="result" id="dateResult">Difference: </div>
         </div>
     </div>
 
     <script>
         let currentOperation = '';
-        let currentScientificFunction = '';
         let base = 10;
+        let currentScientificFunction = '';
 
-        function showCalculator(calcType) {
-            document.querySelectorAll('.calculator').forEach(calc => {
-                calc.classList.remove('active');
-            });
-            document.getElementById(calcType).classList.add('active');
+        function showCalculator(type) {
+            const calculators = document.querySelectorAll('.calculator');
+            calculators.forEach(calc => calc.classList.remove('active'));
+            document.getElementById(type).classList.add('active');
         }
 
         function appendNumber(num) {
-            const display = document.querySelector('.calculator.active .display');
-            if (display.innerText === '0' || currentOperation === 'result') {
+            const display = document.querySelector('.display');
+            if (display.innerText === '0') {
                 display.innerText = num;
             } else {
                 display.innerText += num;
             }
-            currentOperation = '';
         }
 
         function setOperation(op) {
-            const display = document.getElementById('stdDisplay');
-            currentOperation = `${display.innerText} ${op} `;
-            display.innerText = '0';
+            currentOperation = op;
+            const display = document.querySelector('.display');
+            display.innerText += ' ' + op + ' ';
         }
 
         function calculateResult() {
-            const display = document.getElementById('stdDisplay');
+            const display = document.querySelector('.display');
             try {
-                display.innerText = eval(currentOperation + display.innerText);
-                currentOperation = 'result';
-            } catch (e) {
+                display.innerText = eval(display.innerText);
+            } catch {
                 display.innerText = 'Error';
             }
         }
 
         function setScientificFunction(func) {
             currentScientificFunction = func;
+            const display = document.getElementById('sciDisplay');
+            display.innerText = display.innerText;
         }
 
-        function calculateScientific() {
-            const num = parseFloat(document.getElementById('sciDisplay').innerText);
-            let result;
-            switch (currentScientificFunction) {
-                case 'sqrt': result = Math.sqrt(num); break;
-                case 'pow': result = Math.pow(num, 2); break;
-                case 'log10': result = Math.log10(num); break;
-                case 'ln': result = Math.log(num); break;
-            }
-            document.getElementById('sciDisplay').innerText = result;
+        function clearScientific() {
+            document.getElementById('sciDisplay').innerText = '0';
+            currentScientificFunction = '';
         }
 
         function convertNumber() {
@@ -233,9 +264,9 @@
             convertNumber();
         }
 
-        function clearScientific() {
-            document.getElementById('sciDisplay').innerText = '0';
-            currentScientificFunction = '';
+        function clearProgramming() {
+            document.getElementById('progNum').value = '';
+            document.getElementById('progDisplay').innerText = '0';
         }
 
         function calculateDateDifference() {
