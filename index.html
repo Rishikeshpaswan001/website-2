@@ -3,23 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Feature Calculator</title>
+    <title>Modern Multi-Feature Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; }
-        .container { width: 300px; margin: 0 auto; padding-top: 20px; }
-        .calculator { display: none; }
-        .calculator.active { display: block; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1e1e1e;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #2d2d2d;
+            border-radius: 12px;
+            width: 400px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+        }
+        button {
+            background: #0078d4;
+            border: none;
+            color: white;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #005a9e;
+        }
+        .calculator {
+            display: none;
+        }
+        .calculator.active {
+            display: block;
+        }
+        input[type="text"], input[type="date"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+        }
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+        }
+        .result {
+            background: #222;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #graphOutput {
+            height: 300px;
+            margin-top: 20px;
+        }
+        #graphOutput canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Multi-Feature Calculator</h1>
+        <h1>Modern Multi-Feature Calculator</h1>
         <div>
-            <button onclick="showCalculator('standard')">Standard Calculator</button>
-            <button onclick="showCalculator('scientific')">Scientific Calculator</button>
-            <button onclick="showCalculator('graphing')">Graphing Calculator</button>
-            <button onclick="showCalculator('programming')">Programming Calculator</button>
-            <button onclick="showCalculator('date')">Date Calculation Calculator</button>
+            <button onclick="showCalculator('standard')">Standard</button>
+            <button onclick="showCalculator('scientific')">Scientific</button>
+            <button onclick="showCalculator('graphing')">Graphing</button>
+            <button onclick="showCalculator('programming')">Programming</button>
+            <button onclick="showCalculator('date')">Date Calculation</button>
         </div>
 
         <!-- Standard Calculator -->
@@ -34,7 +105,7 @@
             </select>
             <input type="text" id="stdNum2" placeholder="Second number">
             <button onclick="calculateStandard()">Calculate</button>
-            <p id="stdResult"></p>
+            <div id="stdResult" class="result"></div>
         </div>
 
         <!-- Scientific Calculator -->
@@ -49,7 +120,7 @@
                 <option value="log">log</option>
             </select>
             <button onclick="calculateScientific()">Calculate</button>
-            <p id="sciResult"></p>
+            <div id="sciResult" class="result"></div>
         </div>
 
         <!-- Graphing Calculator -->
@@ -65,7 +136,7 @@
             <h2>Programming Calculator</h2>
             <input type="text" id="progNum" placeholder="Number">
             <button onclick="convertNumber()">Convert</button>
-            <p id="progResult"></p>
+            <div id="progResult" class="result"></div>
         </div>
 
         <!-- Date Calculation Calculator -->
@@ -74,10 +145,11 @@
             <input type="date" id="date1">
             <input type="date" id="date2">
             <button onclick="calculateDateDifference()">Calculate Difference</button>
-            <p id="dateResult"></p>
+            <div id="dateResult" class="result"></div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function showCalculator(calcType) {
             document.querySelectorAll('.calculator').forEach(calc => {
@@ -118,22 +190,23 @@
             const func = document.getElementById('graphFunc').value;
             const graphOutput = document.getElementById('graphOutput');
             graphOutput.innerHTML = '';
-            const script = document.createElement('script');
-            script.src = "https://cdn.jsdelivr.net/npm/chart.js";
-            script.onload = () => {
-                const ctx = document.createElement('canvas');
-                graphOutput.appendChild(ctx);
-                const x = Array.from({ length: 100 }, (_, i) => i - 50);
-                const y = x.map(val => eval(func.replace(/x/g, val)));
-                new Chart(ctx.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: x,
-                        datasets: [{ label: 'Graph', data: y, borderColor: 'blue', fill: false }]
+            const ctx = document.createElement('canvas');
+            graphOutput.appendChild(ctx);
+            const x = Array.from({ length: 100 }, (_, i) => i - 50);
+            const y = x.map(val => eval(func.replace(/x/g, val)));
+            new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: x,
+                    datasets: [{ label: 'Graph', data: y, borderColor: '#0078d4', fill: false }]
+                },
+                options: {
+                    scales: {
+                        x: { beginAtZero: true },
+                        y: { beginAtZero: true }
                     }
-                });
-            };
-            document.head.appendChild(script);
+                }
+            });
         }
 
         function convertNumber() {
