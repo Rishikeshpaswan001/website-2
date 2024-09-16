@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows 11 Inspired Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Advanced Calculator</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,7 +19,7 @@
         .container {
             background: #ffffff;
             border-radius: 12px;
-            width: 360px;
+            width: 400px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -48,17 +47,7 @@
         .calculator.active {
             display: block;
         }
-        input[type="text"], input[type="date"] {
-            width: calc(100% - 20px);
-            padding: 12px;
-            margin: 5px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            background: #f9f9f9;
-            color: #333;
-            font-size: 16px;
-        }
-        select {
+        input[type="text"], input[type="date"], input[type="number"], select {
             width: calc(100% - 20px);
             padding: 12px;
             margin: 5px 0;
@@ -93,67 +82,94 @@
             width: 100%;
             font-size: 18px;
         }
+        .calc-controls {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .calc-controls button {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Windows 11 Inspired Calculator</h1>
+        <h1>Advanced Calculator</h1>
         <div class="calculator-container">
-            <button onclick="showCalculator('standard')">Standard</button>
-            <button onclick="showCalculator('scientific')">Scientific</button>
-            <button onclick="showCalculator('programming')">Programming</button>
-            <button onclick="showCalculator('date')">Date Calculation</button>
-        </div>
+            <div class="calc-controls">
+                <button onclick="showCalculator('standard')">Standard</button>
+                <button onclick="showCalculator('scientific')">Scientific</button>
+                <button onclick="showCalculator('programming')">Programming</button>
+                <button onclick="showCalculator('date')">Date Calculation</button>
+            </div>
 
-        <!-- Standard Calculator -->
-        <div id="standard" class="calculator active">
-            <h2>Standard</h2>
-            <input type="text" id="stdNum1" placeholder="First number">
-            <select id="stdOp">
-                <option value="+">+</option>
-                <option value="-">-</option>
-                <option value="*">*</option>
-                <option value="/">/</option>
-            </select>
-            <input type="text" id="stdNum2" placeholder="Second number">
-            <button onclick="calculateStandard()">Calculate</button>
-            <div id="stdResult" class="result"></div>
-        </div>
+            <!-- Standard Calculator -->
+            <div id="standard" class="calculator active">
+                <h2>Standard</h2>
+                <input type="text" id="stdNum1" placeholder="First number">
+                <select id="stdOp">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                    <option value="%">%</option>
+                    <option value="sqrt">√</option>
+                    <option value="pow">^</option>
+                    <option value="log">log</option>
+                </select>
+                <input type="text" id="stdNum2" placeholder="Second number">
+                <button onclick="calculateStandard()">Calculate</button>
+                <div id="stdResult" class="result"></div>
+            </div>
 
-        <!-- Scientific Calculator -->
-        <div id="scientific" class="calculator">
-            <h2>Scientific</h2>
-            <input type="text" id="sciNum" placeholder="Number">
-            <select id="sciFunc">
-                <option value="sin">sin</option>
-                <option value="cos">cos</option>
-                <option value="tan">tan</option>
-                <option value="sqrt">sqrt</option>
-                <option value="log">log</option>
-            </select>
-            <button onclick="calculateScientific()">Calculate</button>
-            <div id="sciResult" class="result"></div>
-        </div>
+            <!-- Scientific Calculator -->
+            <div id="scientific" class="calculator">
+                <h2>Scientific</h2>
+                <input type="text" id="sciNum" placeholder="Number">
+                <select id="sciFunc">
+                    <option value="sin">sin</option>
+                    <option value="cos">cos</option>
+                    <option value="tan">tan</option>
+                    <option value="sinh">sinh</option>
+                    <option value="cosh">cosh</option>
+                    <option value="tanh">tanh</option>
+                    <option value="sqrt">√</option>
+                    <option value="log10">log10</option>
+                    <option value="log">ln</option>
+                    <option value="exp">exp</option>
+                    <option value="factorial">n!</option>
+                    <option value="abs">abs</option>
+                    <option value="pow">^</option>
+                </select>
+                <button onclick="calculateScientific()">Calculate</button>
+                <div id="sciResult" class="result"></div>
+            </div>
 
-        <!-- Programming Calculator -->
-        <div id="programming" class="calculator">
-            <h2>Programming</h2>
-            <input type="text" id="progNum" placeholder="Number">
-            <button onclick="convertNumber()">Convert</button>
-            <div id="progResult" class="result"></div>
-        </div>
+            <!-- Programming Calculator -->
+            <div id="programming" class="calculator">
+                <h2>Programming</h2>
+                <input type="number" id="progNum" placeholder="Number">
+                <select id="progBase">
+                    <option value="2">Binary</option>
+                    <option value="8">Octal</option>
+                    <option value="10">Decimal</option>
+                    <option value="16">Hexadecimal</option>
+                </select>
+                <button onclick="convertNumber()">Convert</button>
+                <div id="progResult" class="result"></div>
+            </div>
 
-        <!-- Date Calculation Calculator -->
-        <div id="date" class="calculator">
-            <h2>Date Calculation</h2>
-            <input type="date" id="date1">
-            <input type="date" id="date2">
-            <button onclick="calculateDateDifference()">Calculate Difference</button>
-            <div id="dateResult" class="result"></div>
+            <!-- Date Calculation Calculator -->
+            <div id="date" class="calculator">
+                <h2>Date Calculation</h2>
+                <input type="date" id="date1">
+                <input type="date" id="date2">
+                <button onclick="calculateDateDifference()">Calculate Difference</button>
+                <div id="dateResult" class="result"></div>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function showCalculator(calcType) {
             document.querySelectorAll('.calculator').forEach(calc => {
@@ -172,6 +188,10 @@
                 case '-': result = num1 - num2; break;
                 case '*': result = num1 * num2; break;
                 case '/': result = num2 !== 0 ? num1 / num2 : 'Error: Division by zero'; break;
+                case '%': result = num1 % num2; break;
+                case 'sqrt': result = Math.sqrt(num1); break;
+                case 'pow': result = Math.pow(num1, num2); break;
+                case 'log': result = Math.log10(num1); break; // log base 10
             }
             document.getElementById('stdResult').innerText = `Result: ${result}`;
         }
@@ -184,28 +204,50 @@
                 case 'sin': result = Math.sin(num); break;
                 case 'cos': result = Math.cos(num); break;
                 case 'tan': result = Math.tan(num); break;
+                case 'sinh': result = Math.sinh(num); break;
+                case 'cosh': result = Math.cosh(num); break;
+                case 'tanh': result = Math.tanh(num); break;
                 case 'sqrt': result = Math.sqrt(num); break;
-                case 'log': result = Math.log(num); break;
+                case 'log10': result = Math.log10(num); break;
+                case 'log': result = Math.log(num); break; // natural log
+                case 'exp': result = Math.exp(num); break;
+                case 'factorial': result = factorial(num); break;
+                case 'abs': result = Math.abs(num); break;
+                case 'pow': result = Math.pow(num, 2); break; // For simplicity, raising to power of 2
             }
             document.getElementById('sciResult').innerText = `Result: ${result}`;
         }
 
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
         function convertNumber() {
             const num = parseInt(document.getElementById('progNum').value);
-            const result = `
-                Binary: ${num.toString(2)}<br>
-                Octal: ${num.toString(8)}<br>
-                Hexadecimal: ${num.toString(16)}
-            `;
-            document.getElementById('progResult').innerHTML = result;
+            const base = parseInt(document.getElementById('progBase').value);
+            let result;
+            switch (base) {
+                case 2: result = num.toString(2); break;
+                case 8: result = num.toString(8); break;
+                case 10: result = num.toString(10); break;
+                case 16: result = num.toString(16).toUpperCase(); break;
+            }
+            document.getElementById('progResult').innerText = `Result: ${result}`;
         }
 
         function calculateDateDifference() {
             const date1 = new Date(document.getElementById('date1').value);
             const date2 = new Date(document.getElementById('date2').value);
-            const diff = Math.abs(date2 - date1);
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('dateResult').innerText = `Difference: ${days} days`;
+            const diffTime = Math.abs(date2 - date1);
+            const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const months = Math.floor(days / 30);
+            const years = Math.floor(days / 365);
+            document.getElementById('dateResult').innerText = `Difference: ${days} days (${months} months, ${years} years)`;
         }
     </script>
 </body>
