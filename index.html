@@ -23,36 +23,36 @@
             align-items: center;
         }
         .calculator {
-            width: 300px; /* Adjusted width */
+            width: 300px;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0,0,0,0.4);
             background: #333;
             padding: 10px;
-            box-sizing: border-box; /* Ensure padding is included in width */
+            box-sizing: border-box;
         }
         .calculator input {
-            width: calc(100% - 20px); /* Adjust width to account for padding */
+            width: calc(100% - 20px);
             padding: 20px;
-            font-size: 1.8em; /* Adjust font size */
+            font-size: 1.8em;
             border: none;
             background: #444;
             color: #fff;
             text-align: right;
             border-bottom: 1px solid #555;
-            box-sizing: border-box; /* Ensure padding is included in width */
+            box-sizing: border-box;
         }
         .calculator button {
-            width: 22%; /* Adjusted button width for aspect ratio */
+            width: 22%;
             padding: 15px;
-            font-size: 1.2em; /* Adjust font size */
+            font-size: 1.2em;
             border: none;
             cursor: pointer;
             border-radius: 5px;
             margin: 5px 0;
             transition: background 0.3s ease, transform 0.1s ease;
             color: #fff;
-            box-sizing: border-box; /* Ensure padding is included in width */
+            box-sizing: border-box;
         }
         .calculator button:active {
             transform: scale(0.98);
@@ -72,15 +72,36 @@
         .calculator button:hover {
             background: #666;
         }
+        .calculator .complex {
+            display: none;
+        }
+        .calculator.complex .complex {
+            display: block;
+        }
         h1 {
             font-size: 2em;
             margin-bottom: 20px;
+        }
+        .toggle-btn {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .toggle-btn:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Simple Calculator</h1>
+        <h1>Calculator</h1>
+        <button class="toggle-btn" onclick="toggleMode()">Switch to Complex Calculator</button>
         <div class="calculator">
             <input type="text" id="display" disabled>
             <button class="clear" onclick="clearDisplay()">C</button>
@@ -100,10 +121,18 @@
             <button onclick="appendCharacter('2')">2</button>
             <button onclick="appendCharacter('3')">3</button>
             <button onclick="appendCharacter('0')">0</button>
+            <div class="complex">
+                <button onclick="appendCharacter('sqrt(')">√</button>
+                <button onclick="appendCharacter('pow(')">^</button>
+                <button onclick="appendCharacter('%')">%</button>
+                <button onclick="appendCharacter('Math.log(')">ln</button>
+            </div>
         </div>
     </div>
 
     <script>
+        let isComplex = false;
+
         function appendCharacter(char) {
             document.getElementById('display').value += char;
         }
@@ -114,9 +143,29 @@
 
         function calculate() {
             try {
-                document.getElementById('display').value = eval(document.getElementById('display').value) || '';
+                let expression = document.getElementById('display').value;
+                // Replace complex functions with JavaScript equivalents
+                expression = expression.replace(/sqrt\(/g, 'Math.sqrt(')
+                                       .replace(/pow\(/g, 'Math.pow(')
+                                       .replace(/ln/g, 'Math.log(');
+                document.getElementById('display').value = eval(expression) || '';
             } catch (e) {
                 document.getElementById('display').value = 'Error';
+            }
+        }
+
+        function toggleMode() {
+            const calculator = document.querySelector('.calculator');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            
+            if (isComplex) {
+                calculator.classList.remove('complex');
+                toggleBtn.textContent = 'Switch to Complex Calculator';
+                isComplex = false;
+            } else {
+                calculator.classList.add('complex');
+                toggleBtn.textContent = 'Switch to Basic Calculator';
+                isComplex = true;
             }
         }
     </script>
