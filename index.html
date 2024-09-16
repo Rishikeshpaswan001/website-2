@@ -2,74 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Website</title>
+    <title>Simple Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
         }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav {
-            background-color: #444;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            padding: 14px 20px;
-            text-align: center;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #555;
-        }
-        section {
+        .calculator {
+            border: 1px solid #ccc;
             padding: 20px;
-            text-align: center;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
+        .calculator input {
             width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            text-align: right;
+        }
+        .calculator button {
+            width: 25%;
+            padding: 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .calculator button.operator {
+            background-color: #f90;
+            color: #fff;
+        }
+        .calculator button.equals {
+            background-color: #0a0;
+            color: #fff;
+        }
+        .calculator button.clear {
+            background-color: #f00;
+            color: #fff;
         }
     </style>
 </head>
 <body>
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button class="operator" onclick="appendCharacter('/')">/</button>
+        <button class="operator" onclick="appendCharacter('*')">*</button>
+        <button class="operator" onclick="appendCharacter('-')">-</button>
+        <button class="operator" onclick="appendCharacter('+')">+</button>
+        <button onclick="appendCharacter('7')">7</button>
+        <button onclick="appendCharacter('8')">8</button>
+        <button onclick="appendCharacter('9')">9</button>
+        <button class="equals" onclick="calculate()">=</button>
+        <button onclick="appendCharacter('4')">4</button>
+        <button onclick="appendCharacter('5')">5</button>
+        <button onclick="appendCharacter('6')">6</button>
+        <button onclick="appendCharacter('.')">.</button>
+        <button onclick="appendCharacter('1')">1</button>
+        <button onclick="appendCharacter('2')">2</button>
+        <button onclick="appendCharacter('3')">3</button>
+        <button onclick="appendCharacter('0')">0</button>
+    </div>
 
-    <header>
-        <h1>Welcome to My Sample Website</h1>
-    </header>
+    <script>
+        function appendCharacter(char) {
+            document.getElementById('display').value += char;
+        }
 
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
-    </nav>
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
 
-    <section>
-        <h2>About This Website</h2>
-        <p>This is a simple website layout created using HTML and basic CSS.</p>
-        <p>Feel free to modify it as per your needs.</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 Sample Website. All rights reserved.</p>
-    </footer>
-
+        function calculate() {
+            try {
+                document.getElementById('display').value = eval(document.getElementById('display').value);
+            } catch (e) {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+    </script>
 </body>
 </html>
