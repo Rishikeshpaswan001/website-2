@@ -3,77 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joke Generator</title>
+    <title>Pac-Man Game</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            background-color: black;
         }
-        .container {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .joke {
-            margin-top: 20px;
-            font-size: 1.2em;
-            color: #333;
+        #gameCanvas {
+            background-color: #000;
+            border: 5px solid #fff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Joke Generator</h1>
-        <input type="text" id="nameInput" placeholder="Enter a name">
-        <button onclick="generateJoke()">Generate Joke</button>
-        <div class="joke" id="jokeOutput"></div>
-    </div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
     <script>
-        function generateJoke() {
-            const name = document.getElementById('nameInput').value;
-            const jokeOutput = document.getElementById('jokeOutput');
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
-            if (name.trim() === "") {
-                jokeOutput.textContent = "Please enter a name.";
-                return;
-            }
+        const pacMan = {
+            x: 200,
+            y: 200,
+            radius: 15,
+            angleStart: 0.2 * Math.PI,
+            angleEnd: 1.8 * Math.PI,
+            speed: 2,
+            dx: 2,
+            dy: 0,
+        };
 
-            // Basic joke generation logic
-            const jokes = [
-                `${name} is so funny, even their jokes have a great punchline!`,
-                `${name} walked into a joke and made it better!`,
-                `Why did ${name} bring a ladder to the bar? To reach the high spirits!`,
-                `${name} could write a book on jokes... but it would be a novel idea!`
-            ];
+        const pellets = [];
+        const pelletRadius = 5;
 
-            const randomIndex = Math.floor(Math.random() * jokes.length);
-            jokeOutput.textContent = jokes[randomIndex];
+        function drawPacMan() {
+            ctx.beginPath();
+            ctx.arc(pacMan.x, pacMan.y, pacMan.radius, pacMan.angleStart, pacMan.angleEnd);
+            ctx.lineTo(pacMan.x, pacMan.y);
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            ctx.closePath();
         }
+
+        function drawPellet(x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, pelletRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "white";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function movePacMan() {
+            pacMan.x += pacMan.dx;
+            pacMan.y += pacMan.dy;
+
+            // Wall collision detection (canvas boundaries)
+            if (pacMan.x + pacMan.radius > canvas.width || pacMan.x - pacMan.radius < 0) {
+                pacMan.dx = -pacMan.dx;
+            }
+            if (pacMan.y + pacMan.radius > canvas.height || pacMan.y - pacMan.radius < 0) {
+                pacMan.dy = -pacMan.dy;
+            }
+        }
+
+        function spawnPellets() {
+            for (let i = 0; i < 5; i++) {
+                let x = Math.random() * (canvas.width - 2 * pelletRadius) + pelletRadius;
+                let y = Math.random() * (canvas.height - 2 * pelletRadius) + pelletRadius;
+                pellets.push({x, y});
+            }
+        }
+
+        function checkPelletCollision() {
+            for (let i = 0; i < pellets.length; i++) {
+                const distX = pacMan.x - pellets[i].x;
+                const distY = pacMan.y - pellets[i].y;
+                const distance = Math.sqrt(distX * distY + distY * distY);
+
+                if (distance < pacMan.radius + pelletRadius) {
+                    pellets.splice(i, 1); // Remove the pellet
+                }
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawPacMan();
+            movePacMan();
+            checkPelletCollision();
+
+            pellets.forEach(p => drawPellet(p.x, p.y));
+
+            requestAnimationFrame(draw);
+        }
+
+        function changeDirection(e) {
+            if (e.key === 'ArrowRight') {
+                pacMan.dx = pacMan.speed;
+                pacMan.dy = 0;
+            } else if (e.key === 'ArrowLeft') {
+                pacMan.dx = -pacMan.speed;
+                pacMan.dy = 0;
+            } else if (e.key === 'ArrowUp') {
+                pacMan.dx = 0;
+                pacMan.dy = -pacMan.speed;
+            } else if (e.key === 'ArrowDown') {
+                pacMan.dx = 0;
+                pacMan.dy = pacMan.speed;
+            }
+        }
+
+        document.addEventListener('keydown', changeDirection);
+
+        spawnPellets();
+        draw();
     </script>
 </body>
 </html>
